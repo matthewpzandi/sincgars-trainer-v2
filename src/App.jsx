@@ -60,7 +60,7 @@ function RoundConnector({ label, active = false, installed = false, onClick, dis
       <div className={`relative w-32 h-32 rounded-full bg-zinc-500 border-[14px] border-zinc-700 shadow-2xl flex items-center justify-center ${active ? "ring-4 ring-yellow-300" : ""}`}>
         {installed ? (
           <>
-            <div className="absolute inset-[12px] rounded-full bg-black border-[8px] border-zinc-800 shadow-2xl z-10" />
+            <div className="absolute inset-[18px] rounded-full bg-black border-[6px] border-zinc-800 shadow-2xl z-10" />
             <div className="absolute inset-[42px] rounded-full bg-zinc-900 z-20" />
           </>
         ) : (
@@ -231,25 +231,31 @@ function CableToPort({ port }) {
   if (!port) return null;
 
   const isFill = port === "fill";
-  const top = isFill ? "top-[58px]" : "top-[232px]";
-  const path = isFill
-    ? "M42 68 C88 72,112 92,140 116 C166 140,204 154,246 156"
-    : "M42 68 C88 72,112 78,142 96 C170 112,204 144,246 156";
+
+  // These values line the cord's starting point up with the center of the black connector cap.
+  // Fill and data use the same geometry, just shifted vertically to the correct port.
+  const top = isFill ? "top-[36px]" : "top-[210px]";
+  const path = "M64 92 C106 92,132 105,158 126 C185 148,220 158,258 158";
 
   return (
-    <div className={`absolute left-0 ${top} w-[300px] h-[230px] pointer-events-none z-30`}>
-      <svg viewBox="0 0 300 230" className="absolute inset-0 w-full h-full overflow-visible text-black">
+    <div className={`absolute left-0 ${top} w-[330px] h-[250px] pointer-events-none z-30`}>
+      <svg viewBox="0 0 330 250" className="absolute inset-0 w-full h-full overflow-visible text-black">
         <path d={path} fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
       </svg>
 
-      <div className="absolute right-1 bottom-0 w-[74px] h-[118px] rounded-[1.2rem] bg-[#080808] shadow-2xl rotate-[10deg] border-2 border-zinc-800">
+      <div className="absolute right-0 bottom-0 w-[74px] h-[118px] rounded-[1.2rem] bg-[#080808] shadow-2xl rotate-[10deg] border-2 border-zinc-800">
         <div className="absolute left-1/2 top-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
+
         <div className="absolute left-1/2 top-9 -translate-x-1/2 w-12 h-16 rounded-md border border-zinc-800 bg-zinc-950">
           <div className="absolute left-1/2 top-2 -translate-x-1/2 w-8 h-2 rounded bg-zinc-700" />
+
           <div className="absolute left-1/2 top-7 -translate-x-1/2 grid grid-cols-3 gap-1 w-9">
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => <div key={n} className="h-1.5 rounded-full bg-zinc-600" />)}
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <div key={n} className="h-1.5 rounded-full bg-zinc-600" />
+            ))}
           </div>
         </div>
+
         <div className="absolute left-1/2 bottom-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
       </div>
     </div>
