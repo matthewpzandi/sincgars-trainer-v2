@@ -38,23 +38,38 @@ function nextFrom(list, current) {
 function CoaxConnector({ active = false, installed = false }) {
   return (
     <div className={`relative w-32 h-32 rounded-full bg-zinc-300 border-[14px] border-zinc-600 shadow-2xl flex items-center justify-center ${active ? "ring-4 ring-yellow-300" : ""}`}>
-      {installed && <div className="absolute bottom-[112px] left-1/2 -translate-x-1/2 w-3 h-36 bg-black rounded-full shadow-xl" />}
-      <div className="w-[68px] h-[68px] rounded-full bg-zinc-100 border-[6px] border-zinc-500 flex items-center justify-center">
-        <div className="w-5 h-5 rounded-full bg-zinc-700" />
-      </div>
+      {installed && (
+        <>
+          <div className="absolute bottom-[105px] left-1/2 -translate-x-1/2 w-3 h-36 bg-black rounded-full shadow-xl z-20" />
+          <div className="absolute inset-[18px] rounded-full bg-black border-[8px] border-zinc-800 shadow-2xl z-10" />
+          <div className="absolute inset-[42px] rounded-full bg-zinc-900 z-20" />
+        </>
+      )}
+      {!installed && (
+        <div className="w-[68px] h-[68px] rounded-full bg-zinc-100 border-[6px] border-zinc-500 flex items-center justify-center">
+          <div className="w-5 h-5 rounded-full bg-zinc-700" />
+        </div>
+      )}
     </div>
   );
 }
 
-function RoundConnector({ label, active = false, onClick, disabled = false }) {
+function RoundConnector({ label, active = false, installed = false, onClick, disabled = false }) {
   const content = (
-    <div className="flex items-center gap-4">
-      <div className={`w-32 h-32 rounded-full bg-zinc-500 border-[14px] border-zinc-700 shadow-2xl flex items-center justify-center ${active ? "ring-4 ring-yellow-300" : ""}`}>
-        <div className="w-20 h-20 rounded-full bg-sky-700 border-[6px] border-zinc-300 grid grid-cols-3 gap-1.5 p-3">
-          {[0, 1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className="rounded-full bg-amber-200 border border-zinc-800" />
-          ))}
-        </div>
+    <div className="flex items-center gap-4 relative">
+      <div className={`relative w-32 h-32 rounded-full bg-zinc-500 border-[14px] border-zinc-700 shadow-2xl flex items-center justify-center ${active ? "ring-4 ring-yellow-300" : ""}`}>
+        {installed ? (
+          <>
+            <div className="absolute inset-[12px] rounded-full bg-black border-[8px] border-zinc-800 shadow-2xl z-10" />
+            <div className="absolute inset-[42px] rounded-full bg-zinc-900 z-20" />
+          </>
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-sky-700 border-[6px] border-zinc-300 grid grid-cols-3 gap-1.5 p-3">
+            {[0, 1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="rounded-full bg-amber-200 border border-zinc-800" />
+            ))}
+          </div>
+        )}
       </div>
       <div className="text-2xl font-black leading-6 text-neutral-300 tracking-wide whitespace-pre-line">{label}</div>
     </div>
@@ -216,23 +231,26 @@ function CableToPort({ port }) {
   if (!port) return null;
 
   const isFill = port === "fill";
-  const top = isFill ? "top-[76px]" : "top-[250px]";
+  const top = isFill ? "top-[58px]" : "top-[232px]";
   const path = isFill
-    ? "M18 35 C52 35,78 50,102 78 C132 112,178 128,226 144"
-    : "M18 35 C58 48,84 60,112 78 C148 102,184 123,226 144";
+    ? "M42 68 C88 72,112 92,140 116 C166 140,204 154,246 156"
+    : "M42 68 C88 72,112 78,142 96 C170 112,204 144,246 156";
 
   return (
-    <div className={`absolute right-[-4px] ${top} w-[315px] h-[225px] pointer-events-none z-20`}>
-      <svg viewBox="0 0 315 225" className="absolute inset-0 w-full h-full overflow-visible text-black">
+    <div className={`absolute left-0 ${top} w-[300px] h-[230px] pointer-events-none z-30`}>
+      <svg viewBox="0 0 300 230" className="absolute inset-0 w-full h-full overflow-visible text-black">
         <path d={path} fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
       </svg>
 
-      <div className="absolute right-3 bottom-2 w-16 h-28 rounded-[1.6rem] bg-[#080808] shadow-2xl rotate-[14deg] border border-zinc-800">
-        <div className="absolute left-1/2 top-4 -translate-x-1/2 w-9 h-2 rounded-full bg-zinc-600" />
-        <div className="absolute left-1/2 top-10 -translate-x-1/2 grid grid-cols-3 gap-1 w-9">
-          {[0, 1, 2, 3, 4, 5].map((n) => <div key={n} className="h-1.5 rounded-full bg-zinc-700" />)}
+      <div className="absolute right-1 bottom-0 w-[74px] h-[118px] rounded-[1.2rem] bg-[#080808] shadow-2xl rotate-[10deg] border-2 border-zinc-800">
+        <div className="absolute left-1/2 top-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
+        <div className="absolute left-1/2 top-9 -translate-x-1/2 w-12 h-16 rounded-md border border-zinc-800 bg-zinc-950">
+          <div className="absolute left-1/2 top-2 -translate-x-1/2 w-8 h-2 rounded bg-zinc-700" />
+          <div className="absolute left-1/2 top-7 -translate-x-1/2 grid grid-cols-3 gap-1 w-9">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => <div key={n} className="h-1.5 rounded-full bg-zinc-600" />)}
+          </div>
         </div>
-        <div className="absolute left-1/2 bottom-4 -translate-x-1/2 w-9 h-2 rounded-full bg-zinc-600" />
+        <div className="absolute left-1/2 bottom-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
       </div>
     </div>
   );
@@ -286,8 +304,8 @@ function FrontFace({
           </div>
 
           <div className="h-full rounded-r-xl bg-[#536049] border-2 border-[#30382d] p-5 relative flex flex-col justify-center gap-14 overflow-visible">
-            <RoundConnector label={<>AUD/<br />FILL</>} active={selectedPart === "handset"} onClick={() => onSpot("fill")} />
-            <RoundConnector label={<>AUD/<br />DATA</>} active={selectedPart === "handset"} onClick={() => onSpot("data")} />
+            <RoundConnector label={<>AUD/<br />FILL</>} active={selectedPart === "handset"} installed={handsetPort === "fill"} onClick={() => onSpot("fill")} />
+            <RoundConnector label={<>AUD/<br />DATA</>} active={selectedPart === "handset"} installed={handsetPort === "data"} onClick={() => onSpot("data")} />
             <CableToPort port={handsetPort} />
           </div>
         </div>
@@ -361,7 +379,7 @@ export default function App() {
   const usableChannel = chan !== "---" ? chan : "1";
   const currentFreq = freqs[usableChannel] || "00000";
 
-  const trainingComplete = assemblyReady && fctn === "SQ ON" && rf === "LO" && mode === "SC" && cmsc === "PT" && chan === "2" && freqs["2"] === "41300";
+  const trainingComplete = assemblyReady && !busy && fctn === "SQ ON" && rf === "LO" && mode === "SC" && cmsc === "PT" && chan === "2" && freqs["2"] === "41300";
 
   useEffect(() => {
     if (trainingComplete && !successPlayedRef.current) {
@@ -505,7 +523,6 @@ export default function App() {
     setMessage(`FCTN set to ${next}. WAIT displayed for 3 seconds.`);
     window.setTimeout(() => {
       setBusy(false);
-      startupBeep();
       if (next === "LD") setMessage("Load mode ready. Press MENU/CLR to step through Volume, Channel, Power, Mode, COMSEC.");
       else if (next === "Z") setMessage("Z position selected. Zeroize is visually represented only; no real COMSEC exists in this trainer.");
       else if (next === "SQ ON") setMessage("FCTN set to SQ ON. Normal operating position after loading.");
@@ -675,8 +692,7 @@ export default function App() {
 
           <section className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-lg text-sm text-neutral-200">
             <h2 className="text-xl font-black">Mission Criteria</h2>
-            <div className="mt-2 text-base">Assemble radio. Handset may connect to either port, but mission success requires <b>AUD/FILL</b>. Then set: <b>LO</b>, <b>SC</b>, <b>PT</b>, <b>Channel 2</b>, frequency <b>41300</b>, then <b>SQ ON</b>.</div>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-3 space-y-2">
               {checklist.map(([label, done]) => <li key={label}>{done ? "✅" : "⬜"} {label}</li>)}
             </ul>
           </section>
