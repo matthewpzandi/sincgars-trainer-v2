@@ -304,7 +304,7 @@ function FrontFace({
 }) {
   return (
     <div className="w-full overflow-x-auto overflow-y-visible pb-4 touch-auto">
-      <motion.div initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="min-w-[1200px] rounded-xl bg-[#3f4a39] border-[6px] border-[#171c15] shadow-2xl p-6 relative overflow-hidden">
+      <motion.div initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full min-w-[1200px] max-w-[1500px] mx-auto rounded-xl bg-[#3f4a39] border-[6px] border-[#171c15] shadow-2xl p-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_70%_80%,rgba(0,0,0,0.28),transparent_45%)] pointer-events-none" />
         <div className="relative grid grid-cols-[285px_minmax(500px,1fr)_300px] gap-5 items-center min-h-[500px]">
           <div className="h-full rounded-l-xl bg-[#536049] border-2 border-[#30382d] p-4 flex flex-col justify-between relative">
@@ -414,7 +414,7 @@ export default function App() {
   const usableChannel = chan !== "---" ? chan : "1";
   const currentFreq = freqs[usableChannel] || "00000";
 
-  const trainingComplete = assemblyReady && !busy && fctn === "SQ ON" && rf === "LO" && mode === "SC" && cmsc === "PT" && chan === "2" && freqs["2"] === "41300";
+  const trainingComplete = assemblyReady && !busy && fctn === "SQ ON" && rf === "HI" && mode === "SC" && cmsc === "PT" && chan === "2" && freqs["2"] === "41300";
 
   useEffect(() => {
     if (trainingComplete && !successPlayedRef.current) {
@@ -458,7 +458,7 @@ export default function App() {
     setScene(next);
     if (next === "rear") setMessage("Rear view: install the battery, then close the battery door.");
     if (next === "front") setMessage("Front view: install antenna and connect the handset to AUD/FILL.");
-    if (next === "setup") setMessage("Setup: set FCTN to LD, then configure LO / SC / PT / CH 2 / 41300.");
+    if (next === "setup") setMessage("Setup: set FCTN to LD, then configure HI / SC / PT / CH 2 / 41300.");
   }
 
   function selectPart(part) {
@@ -667,7 +667,7 @@ export default function App() {
     ["Radio turned to front", scene !== "rear"],
     ["Antenna installed", antennaInstalled],
     ["Handset connected to AUD/FILL", handsetPort === "fill"],
-    ["LO power", rf === "LO"],
+    ["HI power", rf === "HI"],
     ["SC mode", mode === "SC"],
     ["PT COMSEC", cmsc === "PT"],
     ["Channel 2", chan === "2"],
@@ -677,7 +677,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 p-4 flex flex-col items-center gap-4">
-      <div className="w-full max-w-7xl rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg">
+      <div className="w-full max-w-[1700px] rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg">
         <div className="text-xs font-black uppercase tracking-[0.3em] text-emerald-300">SINCGARS Integrated Trainer</div>
         <h1 className="mt-2 text-3xl md:text-4xl font-black tracking-tight">Assembly + Single Channel Setup</h1>
         <div className="mt-4 flex flex-wrap gap-2">
@@ -686,7 +686,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className="w-full max-w-7xl grid xl:grid-cols-[1fr_340px] gap-4 items-start">
+      <div className="w-full max-w-[1700px] grid xl:grid-cols-[1fr_340px] gap-4 items-start">
         <section className="rounded-[2rem] border border-white/10 bg-[#303b2c] p-4 shadow-2xl overflow-auto">
           {scene === "rear" ? (
             <RearView selectedPart={selectedPart} batteryInstalled={batteryInstalled} doorClosed={doorClosed} onSpot={handleSpot} onTurnFront={() => changeScene("front")} />
