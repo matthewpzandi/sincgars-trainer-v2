@@ -1,140 +1,51 @@
-:root {
-  --bg: #070807;
-  --case: #34412f;
-  --case2: #3f4d39;
-  --panel: #53634b;
-  --edge: #182016;
-  --lcd: #b7bea7;
-  --yellow: #ffec3d;
-  --ok: #70eea7;
-  --white: #f4f4ec;
-}
-
-* { box-sizing: border-box; }
-html, body, #root { min-height: 100%; }
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  background: var(--bg);
-  color: var(--white);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-button { font: inherit; color: inherit; cursor: pointer; }
-button:focus-visible { outline: 4px solid rgba(255,236,61,.7); outline-offset: 3px; }
-
-.page { max-width: 1320px; margin: 0 auto; padding: 14px; display: grid; gap: 14px; }
-.header, .card {
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
-}
-.eyebrow { color: var(--ok); font-size: 12px; font-weight: 950; letter-spacing: .28em; text-transform: uppercase; }
-h1 { margin: 6px 0 0; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; font-weight: 950; }
-h2, p { margin: 0; }
-.sub { margin-top: 8px; color: #cfcfcf; line-height: 1.45; }
-.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.tab { border: 1px solid rgba(255,255,255,.13); background: #111; color: #aaa; border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
-.tab.active { color: #e6ffef; border-color: rgba(112,238,167,.65); background: rgba(112,238,167,.18); }
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 14px; align-items: start; }
-.radioShell { background: #303b2c; border: 6px solid #141914; border-radius: 28px; padding: 16px; overflow: auto; touch-action: auto; }
-.canvas { min-height: 560px; }
-.side { display: grid; gap: 14px; }
-.status { color: #e2e2e2; line-height: 1.45; }
-.muted { color: #999; }
-
-@media (max-width: 980px) {
-  .layout { grid-template-columns: 1fr; }
-  .frontRadio { min-width: 1120px; }
-  .rearRadio { min-width: 760px; }
+  padding: 0;
 }
 
-/* Rear view */
-.rearRadio {
-  position: relative;
-  width: min(100%, 860px);
-  min-width: 760px;
-  aspect-ratio: 4 / 3;
-  margin: 0 auto;
-  background: radial-gradient(circle at 26% 20%,rgba(255,255,255,.14),transparent 28%), radial-gradient(circle at 84% 88%,rgba(0,0,0,.35),transparent 44%), #4f6048;
-  border: 5px solid var(--edge);
-  border-radius: 24px;
-  box-shadow: inset 0 10px 34px rgba(0,0,0,.35), 0 18px 42px rgba(0,0,0,.45);
-  overflow: hidden;
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  background: #070807;
+  color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
 }
-.rearBody { position: absolute; left: 8%; top: 12%; width: 84%; height: 72%; border: 5px solid #242d22; border-radius: 24px; background: linear-gradient(145deg,#6c7c62,#44523e); box-shadow: 0 14px 30px rgba(0,0,0,.35), inset 0 2px 0 rgba(255,255,255,.08); }
-.rearPlate { position: absolute; left: 16%; top: 17%; width: 68%; height: 58%; border: 4px solid #222b20; border-radius: 18px; background: linear-gradient(145deg,#53644c,#394634); box-shadow: inset 0 12px 26px rgba(0,0,0,.25); }
-.viewLabel { position: absolute; left: 5%; top: 5%; font-size: 14px; font-weight: 950; letter-spacing: .18em; text-transform: uppercase; color: #e9ffe9; }
-.batterySlot { position: absolute; left: 26%; top: 24%; width: 48%; height: 42%; border: 4px dashed rgba(255,255,255,.42); border-radius: 18px; background: rgba(0,0,0,.15); display: flex; align-items: center; justify-content: center; transition: .15s; }
-.target { outline: 6px solid var(--yellow) !important; filter: brightness(1.12); }
-.emptySlot { text-align: center; font-size: 18px; font-weight: 950; text-transform: uppercase; letter-spacing: .18em; color: rgba(255,255,255,.76); }
-.batteryPack { width: 58%; height: 92%; border: 2px solid rgba(0,0,0,.7); border-radius: 18px; background: linear-gradient(#686868,#080808); box-shadow: 0 14px 30px rgba(0,0,0,.55); padding: 17px; text-align: center; font-weight: 950; color: #dcffe8; }
-.batteryCap { width: 78px; height: 11px; margin: 4px auto 42px; border-radius: 999px; background: #ddd; }
-.batteryTag { background: rgba(0,0,0,.35); border-radius: 8px; padding: 8px; font-size: 22px; }
-.batteryText { margin-top: 42px; letter-spacing: .2em; }
-.closedDoor { position: absolute; left: 24%; top: 22%; width: 52%; height: 46%; border: 5px solid #293126; border-radius: 20px; background: linear-gradient(145deg,#65745c,#3e4a39); box-shadow: 0 14px 22px rgba(0,0,0,.42), inset 0 2px rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 950; letter-spacing: .18em; color: #dfffea; }
-.doorLatch { position: absolute; right: 16px; top: 50%; width: 18px; height: 74px; margin-top: -37px; border-radius: 10px; background: #1b211a; box-shadow: inset 0 2px #77806f; }
-.rearStatus { position: absolute; left: 0; right: 0; bottom: 14%; text-align: center; font-weight: 950; letter-spacing: .12em; color: #d8ffe7; }
-.continueButton { position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%); border: 1px solid rgba(112,238,167,.65); border-radius: 18px; background: rgba(112,238,167,.20); padding: 14px 22px; color: #e2ffed; font-weight: 950; letter-spacing: .14em; }
 
-/* Front view */
-.frontRadio { position: relative; width: 1120px; height: 520px; margin: 0 auto; background: #3e4c38; border: 6px solid #141914; border-radius: 10px; overflow: hidden; box-shadow: inset 0 7px 28px rgba(0,0,0,.35), 0 20px 50px rgba(0,0,0,.45); }
-.frontRadio::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 22% 15%,rgba(255,255,255,.08),transparent 30%), radial-gradient(circle at 80% 95%,rgba(0,0,0,.28),transparent 45%); pointer-events: none; }
-.leftBay { position: absolute; left: 18px; top: 24px; width: 250px; height: 472px; border: 2px solid #263124; border-radius: 8px; background: var(--panel); }
-.centerBay { position: absolute; left: 286px; top: 24px; width: 560px; height: 472px; border: 4px solid #222a20; border-radius: 10px; background: var(--panel); }
-.rightBay { position: absolute; right: 18px; top: 24px; width: 240px; height: 472px; border: 2px solid #263124; border-radius: 8px; background: var(--panel); }
-.antennaSpot { position: absolute; left: 55px; top: 48px; border: 0; background: transparent; text-align: center; padding: 0; }
-.antennaWhip { display: block; width: 8px; height: 104px; border-radius: 999px; background: #050505; margin: 0 auto -2px; box-shadow: 0 8px 18px rgba(0,0,0,.45); }
-.coaxConnector { width: 94px; height: 94px; border-radius: 50%; border: 13px solid #565664; background: #ddd; display: flex; align-items: center; justify-content: center; box-shadow: 0 9px 20px rgba(0,0,0,.45); }
-.coaxCenter { width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 6px solid #727272; }
-.smallFaceLabel { display: block; font-size: 13px; font-weight: 950; letter-spacing: .18em; margin-top: 7px; text-shadow: 0 2px 2px rgba(0,0,0,.65); }
+body {
+  overflow-x: auto;
+}
 
-.functionArea { position: absolute; left: 18px; bottom: 20px; width: 248px; height: 245px; }
-.knobLabel { position: absolute; font-size: 20px; font-weight: 950; line-height: 1; color: #f4f4f4; text-shadow: 0 2px 2px rgba(0,0,0,.55); }
-.knobLabel.active { color: var(--yellow); }
-.boxed { border: 2px solid currentColor; padding: 2px 6px; }
-.rxmt { left: 0; top: 18px; } .rem { left: 64px; top: 18px; } .z { left: 136px; top: 10px; } .offBox { left: 150px; top: 48px; }
-.sqOff { left: 22px; top: 82px; } .sq { left: 22px; top: 113px; } .sqOn { left: 28px; top: 146px; } .ld { left: 72px; top: 207px; } .tst { left: 132px; top: 207px; } .stby { left: 200px; top: 189px; } .fctn { left: 40px; top: 235px; }
-.knob { position: absolute; left: 95px; top: 96px; width: 104px; height: 104px; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#8d9989,#4a5547); border: 5px solid #2b3329; box-shadow: 0 9px 16px rgba(0,0,0,.55); }
-.knobPointer { position: absolute; left: 50%; top: 50%; width: 50px; height: 15px; background: #e6dec5; clip-path: polygon(0 25%,76% 25%,100% 50%,76% 75%,0 75%); transform-origin: 5px 7.5px; }
+button {
+  cursor: pointer;
+  font: inherit;
+}
 
-.lcdLabels { position: absolute; left: 102px; top: 28px; width: 356px; display: grid; grid-template-columns: repeat(4,1fr); font-size: 26px; font-weight: 950; text-align: center; letter-spacing: .05em; }
-.lcdWindow { position: absolute; left: 102px; top: 72px; width: 356px; height: 86px; border: 9px solid #252c24; border-radius: 7px; background: var(--lcd); box-shadow: inset 0 3px 10px rgba(0,0,0,.38); font-family: "Courier New", monospace; color: #111; font-weight: 950; letter-spacing: .13em; }
-.lcdTop { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; font-size: 24px; margin-top: 15px; }
-.lcdBottom { text-align: center; font-size: 24px; margin-top: 5px; letter-spacing: .22em; }
-.keypad { position: absolute; left: 102px; top: 190px; width: 356px; display: grid; grid-template-columns: repeat(4,1fr); gap: 9px; }
-.radioKey { height: 54px; border-radius: 8px; border: 3px solid #050505; background: linear-gradient(#2a2b2f,#141518); box-shadow: inset 0 2px 4px rgba(255,255,255,.13), 0 4px 0 rgba(0,0,0,.75); color: var(--yellow); font-size: 12px; font-weight: 950; line-height: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; white-space: pre-line; }
-.radioKey b { color: #fff; font-size: 17px; margin-top: 2px; }
-.rxmtLabel { position: absolute; right: 18px; bottom: 4px; font-weight: 950; letter-spacing: .12em; color: #e8e8e8; }
+.radio-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
 
-.portSpot { position: absolute; left: 24px; display: flex; align-items: center; gap: 14px; border: 0; background: transparent; padding: 0; text-align: left; }
-.portSpot.fill { top: 110px; } .portSpot.data { top: 280px; }
-.portOuter { width: 96px; height: 96px; border-radius: 50%; border: 13px solid #565664; background: #51575b; display: flex; align-items: center; justify-content: center; box-shadow: 0 9px 20px rgba(0,0,0,.45); }
-.portBlue { width: 62px; height: 62px; border-radius: 50%; border: 6px solid #dce0e0; background: #0879ae; display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; padding: 8px; }
-.portPin { border-radius: 50%; background: #ffd67d; border: 1px solid #333; }
-.portSpot span { font-size: 23px; font-weight: 950; line-height: 1; letter-spacing: .03em; color: #e4e4d5; }
-.handsetCable { position: absolute; right: 72px; width: 265px; height: 165px; pointer-events: none; }
-.handsetCable.fill { top: 164px; } .handsetCable.data { top: 334px; }
-.handsetCable svg { width: 100%; height: 100%; overflow: visible; }
-.handsetBody { position: absolute; right: 0; bottom: 0; width: 54px; height: 92px; background: #070707; border-radius: 24px; transform: rotate(18deg); box-shadow: 0 10px 18px rgba(0,0,0,.45); }
-.handsetBody::before, .handsetBody::after { content: ""; position: absolute; left: 12px; right: 12px; height: 8px; border-radius: 999px; background: #555; }
-.handsetBody::before { top: 18px; } .handsetBody::after { bottom: 18px; }
+.radio-container {
+  min-width: 1200px;
+}
 
-.parts { display: grid; gap: 10px; margin-top: 12px; }
-.partButton { border: 1px solid rgba(255,255,255,.1); border-radius: 16px; background: #111; padding: 12px; min-height: 108px; display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; text-align: center; }
-.partButton.selected { border-color: var(--yellow); background: rgba(255,236,61,.10); }
-.partButton.installed { opacity: .42; cursor: not-allowed; }
-.partButton span { color: #aaa; font-size: 12px; }
-.miniBattery { position: relative; width: 52px; height: 68px; border-radius: 8px; border: 1px solid #000; background: linear-gradient(#666,#111); }
-.miniBattery::before { content: ""; position: absolute; left: 13px; top: 6px; width: 26px; height: 6px; border-radius: 9px; background: #ddd; }
-.miniDoor { font-size: 32px; }
-.miniAntenna { position: relative; width: 66px; height: 76px; }
-.miniAntenna::before { content: ""; position: absolute; left: 31px; top: 0; width: 5px; height: 62px; border-radius: 9px; background: #000; }
-.miniAntenna::after { content: ""; position: absolute; left: 18px; bottom: 0; width: 30px; height: 30px; border-radius: 50%; background: #ddd; border: 8px solid #5b5d66; }
-.miniHandset { position: relative; width: 78px; height: 66px; }
-.miniHandset::before { content: ""; position: absolute; right: 9px; top: 0; width: 33px; height: 64px; border-radius: 22px; background: #050505; transform: rotate(18deg); }
-.miniHandset::after { content: ""; position: absolute; left: 0; top: 34px; width: 58px; height: 26px; border-bottom: 7px solid #000; border-radius: 50%; }
-.hintRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.hintBtn { border: 1px solid rgba(255,255,255,.12); background: #202020; border-radius: 12px; padding: 8px 12px; font-weight: 850; }
-.checklist { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 7px; color: #ddd; font-size: 14px; }
-.success { font-size: 28px; font-weight: 950; color: var(--ok); }
+.hidden {
+  display: none;
+}
+
+.success {
+  color: #7cff98;
+  font-weight: bold;
+}
+
+.warning {
+  color: #ffd84a;
+}
+
+.error {
+  color: #ff7474;
+}
