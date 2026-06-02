@@ -232,31 +232,60 @@ function CableToPort({ port }) {
 
   const isFill = port === "fill";
 
-  // These values line the cord's starting point up with the center of the black connector cap.
-  // Fill and data use the same geometry, just shifted vertically to the correct port.
-  const top = isFill ? "top-[36px]" : "top-[210px]";
-  const path = "M64 92 C106 92,132 105,158 126 C185 148,220 158,258 158";
+  // Coordinates are based on the right connector bay:
+  // - connector cap center is x=84
+  // - AUD/FILL center is y=158
+  // - AUD/DATA center is y=342
+  // The cord starts exactly at that cap center and terminates at the handset cord strain relief.
+  const startY = isFill ? 158 : 342;
+  const endX = 218;
+  const endY = 286;
+
+  const cordPath = isFill
+    ? `M84 ${startY} C118 ${startY}, 140 176, 160 204 C178 232, 198 268, ${endX} ${endY}`
+    : `M84 ${startY} C122 ${startY}, 146 326, 168 306 C186 292, 203 286, ${endX} ${endY}`;
 
   return (
-    <div className={`absolute left-0 ${top} w-[330px] h-[250px] pointer-events-none z-30`}>
-      <svg viewBox="0 0 330 250" className="absolute inset-0 w-full h-full overflow-visible text-black">
-        <path d={path} fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+    <div className="absolute inset-0 pointer-events-none z-30">
+      <svg viewBox="0 0 300 500" className="absolute inset-0 w-full h-full overflow-visible text-black">
+        <path
+          d={cordPath}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
 
-      <div className="absolute right-0 bottom-0 w-[74px] h-[118px] rounded-[1.2rem] bg-[#080808] shadow-2xl rotate-[10deg] border-2 border-zinc-800">
-        <div className="absolute left-1/2 top-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
+      {/* H-250 style handset, not a radio body */}
+      <div className="absolute left-[205px] top-[205px] w-[82px] h-[188px] rotate-[12deg]">
+        {/* main handset shape */}
+        <div className="absolute left-[20px] top-[14px] w-[48px] h-[160px] rounded-[28px] bg-[#070707] border-2 border-zinc-900 shadow-2xl" />
 
-        <div className="absolute left-1/2 top-9 -translate-x-1/2 w-12 h-16 rounded-md border border-zinc-800 bg-zinc-950">
-          <div className="absolute left-1/2 top-2 -translate-x-1/2 w-8 h-2 rounded bg-zinc-700" />
-
-          <div className="absolute left-1/2 top-7 -translate-x-1/2 grid grid-cols-3 gap-1 w-9">
+        {/* upper round receiver */}
+        <div className="absolute left-[8px] top-0 w-[70px] h-[70px] rounded-full bg-[#080808] border-2 border-zinc-900 shadow-xl">
+          <div className="absolute left-1/2 top-1/2 grid w-8 h-8 -translate-x-1/2 -translate-y-1/2 grid-cols-3 gap-1">
             {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-              <div key={n} className="h-1.5 rounded-full bg-zinc-600" />
+              <div key={n} className="rounded-full bg-zinc-500" />
             ))}
           </div>
         </div>
 
-        <div className="absolute left-1/2 bottom-3 -translate-x-1/2 w-10 h-2 rounded-full bg-zinc-600" />
+        {/* lower round microphone */}
+        <div className="absolute left-[1px] bottom-0 w-[64px] h-[64px] rounded-full bg-[#080808] border-2 border-zinc-900 shadow-xl">
+          <div className="absolute left-1/2 top-1/2 grid w-7 h-7 -translate-x-1/2 -translate-y-1/2 grid-cols-3 gap-1">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <div key={n} className="rounded-full bg-zinc-500" />
+            ))}
+          </div>
+        </div>
+
+        {/* single push-to-talk button */}
+        <div className="absolute left-[6px] top-[92px] w-4 h-12 rounded-md bg-zinc-800 border border-zinc-700 shadow" />
+
+        {/* cord strain relief point where the wire visibly lands */}
+        <div className="absolute left-[6px] top-[79px] w-5 h-5 rounded-full bg-black border-2 border-zinc-900 shadow" />
       </div>
     </div>
   );
