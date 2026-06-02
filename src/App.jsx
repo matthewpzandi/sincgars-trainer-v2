@@ -102,8 +102,8 @@ function FunctionKnob({ value, onChange, disabled = false }) {
 
   return (
     <div className="relative" style={{ width: 290, height: 290 }}>
-      <div className={labelBase + active("RXMT")} style={{ left: 8, top: 22 }}>RXMT</div>
-      <div className={labelBase + active("REM")} style={{ left: 78, top: 22 }}>REM</div>
+      <div className={labelBase + active("RXMT")} style={{ left: 2, top: 22 }}>RXMT</div>
+      <div className={labelBase + active("REM")} style={{ left: 92, top: 22 }}>REM</div>
       <BoxedLabel active={value === "Z"} style={{ left: 152, top: 16 }}>Z</BoxedLabel>
       <BoxedLabel active={value === "OFF"} style={{ left: 164, top: 54 }}>OFF</BoxedLabel>
       <div className={labelBase + active("SQ OFF")} style={{ left: 28, top: 84 }}>OFF</div>
@@ -111,8 +111,8 @@ function FunctionKnob({ value, onChange, disabled = false }) {
       <div className={labelBase + active("SQ ON")} style={{ left: 32, top: 148 }}>ON</div>
       <div className={labelBase + active("LD")} style={{ left: 68, top: 214 }}>LD</div>
       <div className={labelBase + active("TST")} style={{ left: 126, top: 216 }}>TST</div>
-      <BoxedLabel active={value === "STBY"} style={{ left: 198, top: 194 }}>STBY</BoxedLabel>
-      <div className="absolute left-[40px] top-[246px] text-[21px] font-black text-neutral-200">FCTN</div>
+      <BoxedLabel active={value === "STBY"} style={{ left: 184, top: 194 }}>STBY</BoxedLabel>
+      <div className="absolute left-[18px] top-[258px] text-[24px] font-black tracking-wide text-neutral-200">FCTN</div>
 
       <button
         type="button"
@@ -214,16 +214,25 @@ function RearView({ selectedPart, batteryInstalled, doorClosed, onSpot, onTurnFr
 
 function CableToPort({ port }) {
   if (!port) return null;
-  const top = port === "fill" ? "top-[85px]" : "top-[260px]";
-  const d = port === "fill" ? "M10 28 C70 30,105 64,138 98 S232 116,285 156" : "M10 28 C72 42,102 50,138 66 S228 116,285 156";
+
+  const isFill = port === "fill";
+  const top = isFill ? "top-[76px]" : "top-[250px]";
+  const path = isFill
+    ? "M18 35 C52 35,78 50,102 78 C132 112,178 128,226 144"
+    : "M18 35 C58 48,84 60,112 78 C148 102,184 123,226 144";
+
   return (
-    <div className={`absolute right-[-12px] ${top} w-[330px] h-[230px] pointer-events-none z-20`}>
-      <svg viewBox="0 0 330 230" className="absolute inset-0 w-full h-full overflow-visible text-black">
-        <path d={d} fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+    <div className={`absolute right-[-4px] ${top} w-[315px] h-[225px] pointer-events-none z-20`}>
+      <svg viewBox="0 0 315 225" className="absolute inset-0 w-full h-full overflow-visible text-black">
+        <path d={path} fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
       </svg>
-      <div className="absolute right-4 bottom-0 w-14 h-28 rotate-[18deg] rounded-[2rem] bg-black shadow-2xl">
-        <div className="mx-auto mt-5 h-2 w-8 rounded bg-zinc-600" />
-        <div className="mx-auto mt-12 h-2 w-8 rounded bg-zinc-600" />
+
+      <div className="absolute right-3 bottom-2 w-16 h-28 rounded-[1.6rem] bg-[#080808] shadow-2xl rotate-[14deg] border border-zinc-800">
+        <div className="absolute left-1/2 top-4 -translate-x-1/2 w-9 h-2 rounded-full bg-zinc-600" />
+        <div className="absolute left-1/2 top-10 -translate-x-1/2 grid grid-cols-3 gap-1 w-9">
+          {[0, 1, 2, 3, 4, 5].map((n) => <div key={n} className="h-1.5 rounded-full bg-zinc-700" />)}
+        </div>
+        <div className="absolute left-1/2 bottom-4 -translate-x-1/2 w-9 h-2 rounded-full bg-zinc-600" />
       </div>
     </div>
   );
@@ -255,7 +264,7 @@ function FrontFace({
 
           <div className="bg-[#596650] rounded-xl border-4 border-[#222920] p-6 shadow-inner relative">
             <div className="mx-auto max-w-[580px]">
-              <div className="grid grid-cols-4 text-center text-3xl font-black text-neutral-100 tracking-wider mb-1 px-5">
+              <div className="grid grid-cols-4 text-center text-2xl font-black text-neutral-100 tracking-[0.16em] mb-2 px-7">
                 <div>PWR</div><div>MODE</div><div>CHAN</div><div>CMSC</div>
               </div>
               <div className="h-[124px] bg-[#aeb39b] border-[10px] border-[#2a3029] rounded-lg shadow-inner text-neutral-900 font-mono flex flex-col justify-center px-6 text-3xl tracking-[0.12em] mb-7">
@@ -276,7 +285,7 @@ function FrontFace({
             <div className="absolute bottom-[-2px] right-10 text-sm font-black text-neutral-300 tracking-wider">RXMT</div>
           </div>
 
-          <div className="h-full rounded-r-xl bg-[#536049] border-2 border-[#30382d] p-5 relative flex flex-col justify-center gap-14 overflow-hidden">
+          <div className="h-full rounded-r-xl bg-[#536049] border-2 border-[#30382d] p-5 relative flex flex-col justify-center gap-14 overflow-visible">
             <RoundConnector label={<>AUD/<br />FILL</>} active={selectedPart === "handset"} onClick={() => onSpot("fill")} />
             <RoundConnector label={<>AUD/<br />DATA</>} active={selectedPart === "handset"} onClick={() => onSpot("data")} />
             <CableToPort port={handsetPort} />
@@ -322,16 +331,17 @@ export default function App() {
     return audioCtxRef.current;
   }
 
-  function playTone(freq = 900, duration = 45, volume = 0.02, type = "sine") {
+  function playTone(freq = 900, duration = 45, baseVolume = 0.02, type = "sine") {
     const ctx = getAudioContext();
     if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const now = ctx.currentTime;
+    const scaledVolume = Math.max(0.002, baseVolume * (volume / 5));
     osc.type = type;
     osc.frequency.setValueAtTime(freq, now);
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(volume, now + 0.006);
+    gain.gain.linearRampToValueAtTime(scaledVolume, now + 0.006);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration / 1000);
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -491,24 +501,18 @@ export default function App() {
       return;
     }
 
-    if (next === "LD") {
-      setBusy(true);
-      setMessage("FCTN set to LD. WAIT displayed for 3 seconds.");
-      window.setTimeout(() => {
-        setBusy(false);
-        startupBeep();
-        setMessage("Load mode ready. Press MENU/CLR to step through Volume, Channel, Power, Mode, COMSEC.");
-      }, 3000);
-      return;
-    }
-
-    if (next === "Z") setMessage("Z position selected. Zeroize is visually represented only; no real COMSEC exists in this trainer.");
-    else if (next === "SQ ON") setMessage("FCTN set to SQ ON. Normal operating position after loading.");
-    else if (next === "SQ OFF") setMessage("FCTN set to SQ OFF. Squelch off position selected.");
-    else if (next === "TST") {
-      confirmTone();
-      setMessage("Self-test simulated. Display should show GOOD.");
-    } else setMessage(`FCTN set to ${next}.`);
+    setBusy(true);
+    setMessage(`FCTN set to ${next}. WAIT displayed for 3 seconds.`);
+    window.setTimeout(() => {
+      setBusy(false);
+      startupBeep();
+      if (next === "LD") setMessage("Load mode ready. Press MENU/CLR to step through Volume, Channel, Power, Mode, COMSEC.");
+      else if (next === "Z") setMessage("Z position selected. Zeroize is visually represented only; no real COMSEC exists in this trainer.");
+      else if (next === "SQ ON") setMessage("FCTN set to SQ ON. Normal operating position after loading.");
+      else if (next === "SQ OFF") setMessage("FCTN set to SQ OFF. Squelch off position selected.");
+      else if (next === "TST") setMessage("Self-test simulated. Display should show GOOD.");
+      else setMessage(`FCTN set to ${next}.`);
+    }, 3000);
   }
 
   function pressKey(label, digit) {
@@ -549,7 +553,7 @@ export default function App() {
     if (label === "CHG") {
       if (screen === "VOL") {
         setVolume((prev) => (prev >= 9 ? 1 : prev + 1));
-        return setMessage("Volume changed. Set to 5 for the classroom checklist.");
+        return setMessage("Volume changed. Beeps now follow the displayed volume level.");
       }
       if (screen === "CHAN") {
         const next = nextFrom(chanPositions, chan);
@@ -624,12 +628,9 @@ export default function App() {
       <div className="w-full max-w-7xl rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg">
         <div className="text-xs font-black uppercase tracking-[0.3em] text-emerald-300">SINCGARS Integrated Trainer</div>
         <h1 className="mt-2 text-3xl md:text-4xl font-black tracking-tight">Assembly + Single Channel Setup</h1>
-        <p className="text-sm text-neutral-300 mt-2">Rear battery install → close and lock door → front connections → LO / SC / PT / CH 2 / 41300 / SQ ON.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <button type="button" onClick={() => changeScene("rear")} className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] ${scene === "rear" ? "border-emerald-300/60 bg-emerald-400/20 text-emerald-100" : "border-white/10 bg-neutral-900 text-neutral-400"}`}>1 Rear</button>
-          <button type="button" onClick={() => changeScene("front")} className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] ${scene === "front" ? "border-emerald-300/60 bg-emerald-400/20 text-emerald-100" : "border-white/10 bg-neutral-900 text-neutral-400"}`}>2 Front</button>
-          <button type="button" onClick={() => changeScene("setup")} className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] ${scene === "setup" ? "border-emerald-300/60 bg-emerald-400/20 text-emerald-100" : "border-white/10 bg-neutral-900 text-neutral-400"}`}>3 Setup</button>
-          <button type="button" onClick={() => setAudioOn((p) => !p)} className="rounded-full border border-white/10 bg-neutral-900 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-neutral-300">{audioOn ? "Audio On" : "Audio Off"}</button>
+          <button type="button" onClick={() => changeScene("front")} className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] ${scene !== "rear" ? "border-emerald-300/60 bg-emerald-400/20 text-emerald-100" : "border-white/10 bg-neutral-900 text-neutral-400"}`}>2 Front</button>
         </div>
       </div>
 
