@@ -35,6 +35,94 @@ function nextFrom(list, current) {
   return list[(idx + 1) % list.length];
 }
 
+function ResponsiveStage({ baseWidth, baseHeight, children }) {
+  const hostRef = useRef(null);
+  const [fitScale, setFitScale] = useState(1);
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    const updateFit = () => {
+      const availableWidth = hostRef.current?.clientWidth || baseWidth;
+      setFitScale(Math.min(1, availableWidth / baseWidth));
+    };
+
+    updateFit();
+
+    const observer =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(updateFit)
+        : null;
+
+    if (observer && hostRef.current) observer.observe(hostRef.current);
+    window.addEventListener("resize", updateFit);
+    window.addEventListener("orientationchange", updateFit);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", updateFit);
+      window.removeEventListener("orientationchange", updateFit);
+    };
+  }, [baseWidth]);
+
+  const scale = fitScale * zoom;
+  const renderedWidth = baseWidth * scale;
+  const renderedHeight = baseHeight * scale;
+
+  return (
+    <div
+      ref={hostRef}
+      className="relative w-full overflow-auto overscroll-contain"
+      style={{ touchAction: "pan-x pan-y pinch-zoom" }}
+    >
+      <div className="sticky top-2 z-50 ml-auto mr-2 mb-2 flex w-fit gap-2 md:hidden">
+        <button
+          type="button"
+          onClick={() => setZoom((value) => Math.max(1, Number((value - 0.25).toFixed(2))))}
+          className="rounded-lg border border-white/20 bg-neutral-900/95 px-3 py-2 text-sm font-black shadow-lg"
+          aria-label="Zoom out"
+        >
+          −
+        </button>
+        <button
+          type="button"
+          onClick={() => setZoom(1)}
+          className="rounded-lg border border-white/20 bg-neutral-900/95 px-3 py-2 text-xs font-black shadow-lg"
+        >
+          FIT
+        </button>
+        <button
+          type="button"
+          onClick={() => setZoom((value) => Math.min(3, Number((value + 0.25).toFixed(2))))}
+          className="rounded-lg border border-white/20 bg-neutral-900/95 px-3 py-2 text-sm font-black shadow-lg"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+      </div>
+
+      <div
+        className="relative"
+        style={{
+          width: renderedWidth,
+          height: renderedHeight,
+          minWidth: renderedWidth,
+        }}
+      >
+        <div
+          style={{
+            width: baseWidth,
+            height: baseHeight,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CoaxConnector({ active = false, installed = false }) {
   return (
     <div className={`relative w-32 h-32 rounded-full bg-zinc-300 border-[14px] border-zinc-600 shadow-2xl flex items-center justify-center ${active ? "ring-4 ring-yellow-300" : ""}`}>
@@ -183,7 +271,8 @@ function PartButton({ type, selected, installed, hidden, onClick }) {
 
 function RearView({ selectedPart, batteryInstalled, doorClosed, onSpot, onTurnFront }) {
   return (
-    <div className="relative mx-auto min-w-[760px] w-full max-w-[860px] aspect-[4/3] rounded-[1.5rem] border-[5px] border-[#1b2319] bg-[#4f6048] shadow-2xl overflow-hidden">
+    <ResponsiveStage baseWidth={860} baseHeight={645}>
+      <div className="relative w-[860px] h-[645px] rounded-[1.5rem] border-[5px] border-[#1b2319] bg-[#4f6048] shadow-2xl overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_20%,rgba(255,255,255,.14),transparent_28%),radial-gradient(circle_at_84%_88%,rgba(0,0,0,.35),transparent_44%)]" />
       <div className="absolute left-[8%] top-[12%] w-[84%] h-[72%] rounded-3xl border-[5px] border-[#242d22] bg-gradient-to-br from-[#6c7c62] to-[#44523e] shadow-2xl" />
       <div className="absolute left-[16%] top-[17%] w-[68%] h-[58%] rounded-2xl border-4 border-[#222b20] bg-gradient-to-br from-[#53644c] to-[#394634] shadow-inner" />
@@ -223,7 +312,8 @@ function RearView({ selectedPart, batteryInstalled, doorClosed, onSpot, onTurnFr
           <button type="button" onClick={onTurnFront} className="absolute bottom-[5%] left-1/2 -translate-x-1/2 rounded-2xl border border-emerald-300/60 bg-emerald-400/20 px-6 py-4 font-black tracking-[0.14em] text-emerald-100">TURN RADIO OVER →</button>
         </>
       )}
-    </div>
+      </div>
+    </ResponsiveStage>
   );
 }
 
@@ -303,8 +393,12 @@ function FrontFace({
   setupBlocked,
 }) {
   return (
-    <div className="w-full overflow-x-auto overflow-y-visible pb-4 touch-auto">
-      <motion.div initial={{ scale: 0.98, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full min-w-[1200px] max-w-[1500px] mx-auto rounded-xl bg-[#3f4a39] border-[6px] border-[#171c15] shadow-2xl p-6 relative overflow-hidden">
+    <ResponsiveStage baseWidth={1200} baseHeight={560}>
+      <motion.div
+        initial={{ scale: 0.98, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="w-[1200px] h-[560px] rounded-xl bg-[#3f4a39] border-[6px] border-[#171c15] shadow-2xl p-6 relative overflow-hidden"
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_70%_80%,rgba(0,0,0,0.28),transparent_45%)] pointer-events-none" />
         <div className="relative grid grid-cols-[285px_minmax(500px,1fr)_300px] gap-5 items-center min-h-[500px]">
           <div className="h-full rounded-l-xl bg-[#536049] border-2 border-[#30382d] p-4 flex flex-col justify-between relative">
@@ -345,7 +439,7 @@ function FrontFace({
           </div>
         </div>
       </motion.div>
-    </div>
+    </ResponsiveStage>
   );
 }
 
@@ -687,7 +781,7 @@ export default function App() {
       </div>
 
       <div className="w-full max-w-[1700px] grid xl:grid-cols-[1fr_340px] gap-4 items-start">
-        <section className="rounded-[2rem] border border-white/10 bg-[#303b2c] p-4 shadow-2xl overflow-auto">
+        <section className="rounded-[2rem] border border-white/10 bg-[#303b2c] p-3 sm:p-4 shadow-2xl overflow-hidden">
           {scene === "rear" ? (
             <RearView selectedPart={selectedPart} batteryInstalled={batteryInstalled} doorClosed={doorClosed} onSpot={handleSpot} onTurnFront={() => changeScene("front")} />
           ) : (
